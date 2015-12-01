@@ -130,6 +130,7 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 		}).then(function successCallback(response){
 			console.log(response);
 			$('#modal1').closeModal();
+			Materialize.toast('Guardado Exitoso', 4000);
 			$scope.total = 2;
 			$scope.data = [];
 		}, function errorCallback(response){
