@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="restaurante">
+<head>
+	<meta charset="UTF-8">
+	<title>Restaurante</title>
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="/static/materialize/css/materialize.min.css">
+	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/static/materialize/js/materialize.min.js"></script>
+ 	<script type="text/javascript" src="/static/angular/angular.min.js"></script>
+ 	<script type="text/javascript" src="/static/angular/angular-route.min.js"></script>
+ 	<script type="text/javascript" src="/static/controllers.js"></script>
+ 	<script type="text/javascript" src="/static/app.js"></script>
+	<script type="text/javascript" src="/static/router.js"></script>
+ 	<style>
+		body {
+			display: flex;
+			min-height: 100vh;
+			flex-direction: column;
+			background-color: #dad5be;
+			color:#633426;
+		}
+		 .input-field label {
+		 	color: #633426;
+		 }
+		 .input-field input[type=text]:focus + label {
+		 	color:#6E9474 ;
+		 }
+		 .input-field input[type=text]:focus {
+		     border-bottom: 1px solid #6E9474;
+		     box-shadow: 0 1px 0 0 #bababa;
+		}
+		nav, footer{
+			background-color: #6E9474 !important;
+		}
+		table{
+			border-color:#633426 !important;
+		}
+		.ng-invalid.ng-dirty {
+			border-color: #FA787E;
+		}
+		.ng-valid.ng-dirty {
+			border-color: #78FA89;
+		}
+		html {
+			font-family: GillSans, Calibri, Trebuchet, sans-serif;
+  		}
+      
+ 	</style>
+ 	<script>
+ 	$(document).ready(function() {
+ 		$(".dropdown-button").dropdown();
+		$(".button-collapse").sideNav();
+ 	});
+ 	</script>
+ </head>
+<body>
+<section ng-controller="TabController as tab">
+	<ul id="dropdown1" class="dropdown-content">
+	  <li><a href="#!">Cerrar Sesión</a></li>
+	  <li><a href="#!">ayuda</a></li>
+	</ul>
+	<nav>
+	<div class="nav-wrapper">
+	  <a href="#" class="brand-logo">Restaurante</a>
+	  <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+	  <ul id="nav" class="right hide-on-med-and-down">
+	    <li ng-class="{ active:tab.isSelect(1) }"><a href="#/dashboard" ng-click="tab.selectTab(1)"><i class="material-icons left">dashboard</i>Inicio</a></li>
+	    <li ng-class="{ active:tab.isSelect(2) }"><a href="#/ventas" ng-click="tab.selectTab(2)"><i class="material-icons left">shop</i>Ventas</a></li>
+	    <li ng-class="{ active:tab.isSelect(3) }"><a href="#/requisicion" ng-click="tab.selectTab(3)"><i class="material-icons left">shopping_basket</i>Requesición de compra</a></li>
+	    <li ng-class="{ active:tab.isSelect(4) }"><a href="#/inventario" ng-click="tab.selectTab(4)"><i class="material-icons left">store</i>Inventario</a></li>
+	    <li ng-class="{ active:tab.isSelect(5) }"><a href="#/recetas" ng-click="tab.selectTab(5)"><i class="material-icons left">stars</i>Recetas</a></li>
+	  	<li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons">more_vert</i></a></li>
+	  </ul>
+	   <ul class="side-nav" id="mobile-demo">
+	       	<li ng-class="{ active:tab.isSelect(1) }"><a href="#/dashboard" ng-click="tab.selectTab(1)"><i class="material-icons left">dashboard</i>Inicio</a></li>
+	        <li ng-class="{ active:tab.isSelect(2) }"><a href="#/ventas" ng-click="tab.selectTab(2)"><i class="material-icons left">shop</i>Ventas</a></li>
+	        <li ng-class="{ active:tab.isSelect(3) }"><a href="#/requisicion" ng-click="tab.selectTab(3)"><i class="material-icons left">shopping_basket</i>Requesición</a></li>
+	        <li ng-class="{ active:tab.isSelect(4) }"><a href="#/inventario" ng-click="tab.selectTab(4)"><i class="material-icons left">store</i>Inventario</a></li>
+	    	<li ng-class="{ active:tab.isSelect(5) }"><a href="#/recetas" ng-click="tab.selectTab(5)"><i class="material-icons left">stars</i>Recetas</a></li>
+	   </ul>
+	</div>
+	</nav>
+	<div id="content" ng-view>
+		
+	</div>
+</section>
+</body>
+</html

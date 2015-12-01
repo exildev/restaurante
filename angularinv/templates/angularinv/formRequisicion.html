@@ -1,0 +1,62 @@
+ <div id="modal1" class="modal" >
+    <div class="modal-content"> 	
+		<form  method="post"  name="formR" ng-submit="formR.$valid && enviarForm()" novalidate>
+		{% csrf_token %}
+			<div class="row"> 
+					<div class="input-field col s12">
+						<input id="id_codigo" maxlength="45" name="codigo" type="text" required ng-model="data.codigo"/>
+						<label for="id_codigo">Codigo:</label> 
+					</div>
+					<input id="id_solicituddeproducto_set-TOTAL_FORMS" name="solicituddeproducto_set-TOTAL_FORMS" type="hidden" value="[[total]]" ng-model="data.total"/>
+					<input id="id_solicituddeproducto_set-INITIAL_FORMS" name="solicituddeproducto_set-INITIAL_FORMS" type="hidden" value="0" ng-model="data.initial"/>
+					<input id="id_solicituddeproducto_set-MIN_NUM_FORMS" name="solicituddeproducto_set-MIN_NUM_FORMS" type="hidden" value="0" ng-model="data.min"/>
+					<input id="id_solicituddeproducto_set-MAX_NUM_FORMS" name="solicituddeproducto_set-MAX_NUM_FORMS" type="hidden" value="1000" ng-model="data.max"/>
+					<div ng-repeat="n in range(0, total)" >
+						<div ng-hide="data.check[n]" ng-init="data.check[n]=false" ng-model="data.check[n]" class="row">
+							<div  class="input-field col s3">
+								<select  id="id_solicituddeproducto_set-[[n]]-producto" name="solicituddeproducto_set-[[n]]-producto" ng-model="data.producto[n]" > 
+									<option value="" disabled selected="selected">---------</option>
+									<option ng-repeat="pro in productos" value="[[ pro.id ]]">[[ pro.nombre ]]</option>
+								</select>
+								<label for="id_solicituddeproducto_set-[[n]]-producto">Producto:</label> 
+							</div>
+							<div class="input-field col s3" >
+								<select id="id_solicituddeproducto_set-[[n]]-presentacion" name="solicituddeproducto_set-[[n]]-presentacion"  ng-model="data.presentacion[n]">
+									<option value="" disabled selected="selected">---------</option>
+									<option value="1">Presentacion object</option>
+								</select>
+								<label for="id_solicituddeproducto_set-[[n]]-presentacion">Presentacion:</label> 
+							</div>
+							<div class="input-field col s3">
+								<input id="id_solicituddeproducto_set-[[n]]-cantidad" min="0" name="solicituddeproducto_set-[[n]]-cantidad" type="number"  ng-model="data.cantidad[n]"/>
+								<label for="id_solicituddeproducto_set-[[n]]-cantidad">Cantidad:</label> 
+							</div>
+							<div class="input-field col s3">
+								<input id="id_solicituddeproducto_set-[[n]]-DELETE" name="solicituddeproducto_set-[[n]]-DELETE" type="checkbox"  ng-change="selectDelete(n, data.deletE[n])" ng-model="data.deletE[n]"/>
+								<label for="id_solicituddeproducto_set-[[n]]-DELETE">Eliminar</label> 
+								<input id="id_solicituddeproducto_set-[[n]]-requisiciondecompra" name="solicituddeproducto_set-[[n]]-requisiciondecompra" type="hidden" />
+								<input id="id_solicituddeproducto_set-[[n]]-id" name="solicituddeproducto_set-[[n]]-id" type="hidden" />
+							</div>	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<a href="" class="btn col s12" ng-click="addStact()">
+							<i class="material-icons right">add</i>Agregar otro</a>
+						</div>
+						<div class="col s6">
+							<a href="" class="btn col s12" ng-click="hideSelect()">
+							<i class="material-icons right">delete</i>Eliminar selccionados</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<button class="btn waves-effect waves-light col s12" type="submit" name="action">Enviar
+						    	<i class="material-icons right">send</i>
+							</button>	
+						</div>	
+					</div>
+			</div> 
+		</form>	
+    </div>
+  </div>
