@@ -62,35 +62,54 @@ class AlmacenListView(supra.SupraListView):
 
 class ProductoListView(supra.SupraListView):
 	model = models.Producto
-	list_display = ['id', 'almacen', 'almacenado_en', 'usuario', 'nombre', 'fecha_agregado']
+	list_display = ['id', 'almacen', 'almacenado_en', 'username', 'nombre', 'fecha_agregado']
 	class Renderer:
 		almacenado_en = 'almacen__nombre'
+		username = 'usuario__username'
 	#end class
 #end class
 
 class ProveedorListView(supra.SupraListView):
 	model = models.Proveedor
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class PresentacionListView(supra.SupraListView):
 	model = models.Presentacion
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class EntradaListView(supra.SupraListView):
 	model = models.Entrada
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class SalidaListView(supra.SupraListView):
 	model = models.Salida
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class RequisicionDeCompraListView(supra.SupraListView):
 	model = models.RequisicionDeCompra
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class SolicitudDeProductoListView(supra.SupraListView):
 	model = models.SolicitudDeProducto
 	search_fields = ['producto_id']
+	class Renderer:
+		username = 'usuario__username'
+	#end class
 #end class
 
 class RequisiscionDeCompraDetail(supra.SupraDetailView):
