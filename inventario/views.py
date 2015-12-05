@@ -51,6 +51,11 @@ class RequisicionDeCompraFormView(supra.SupraFormView):
 	inlines = [SolicitudDeProductoFormView]
 #end class
 
+"""
+	LISTS
+
+"""
+
 class AlmacenListView(supra.SupraListView):
 	model = models.Almacen
 #end class
@@ -85,4 +90,12 @@ class RequisicionDeCompraListView(supra.SupraListView):
 
 class SolicitudDeProductoListView(supra.SupraListView):
 	model = models.SolicitudDeProducto
+	search_fields = ['producto_id']
+#end class
+
+class RequisiscionDeCompraDetail(supra.SupraDetailView):
+	model = models.RequisicionDeCompra
+	class Renderer:
+		productos = SolicitudDeProductoListView
+	#end class
 #end class
