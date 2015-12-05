@@ -19,6 +19,7 @@ class SupraListView(ListView):
 	search_fields = []
 	kwargs = {}
 	dict_only = False
+	rules = {}
 
 	def __ini__(self, dict_only = False, *args, **kwargs):
 		self.dict_only = dict_only
@@ -48,6 +49,7 @@ class SupraListView(ListView):
 			#end if
 			queryset = queryset.filter(q)
 		#end for
+		queryset = queryset.filter(**self.rules)
 		return queryset
 	#end def
 
@@ -104,7 +106,7 @@ class SupraListView(ListView):
 
 class SupraDetailView(DetailView):
 	fields = None
-
+	extra_fields = {}
 	def dispatch(self, request, *args, **kwargs):
 		renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if not key.startswith('__'))
 		for renderer in renderers:
@@ -112,9 +114,9 @@ class SupraDetailView(DetailView):
 			ref = self.get_reference(listv)
 			if ref:
 				pk = kwargs['pk']
-				kwargs[ref.name] = pk
-				print listv.dispatch(request, *args, **kwargs)
-
+				listv.rules[ref.name] = pk
+				self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
+			#end def
 		return super(SupraDetailView, self).dispatch(request) 
 	#end def
 
@@ -139,6 +141,8 @@ class SupraDetailView(DetailView):
 				json_dict[field.name] = getattr(context["object"], field.name)
 			#end for
 		#end if
+		for extra in self.extra_fields:
+			json_dict[extra] = self.extra_fields[extra]
 		return HttpResponse(json.dumps(json_dict, cls=DjangoJSONEncoder), content_type="application/json")
 	#enddef
 #end class
