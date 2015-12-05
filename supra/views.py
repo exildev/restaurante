@@ -21,8 +21,9 @@ class SupraListView(ListView):
 	dict_only = False
 	rules = {}
 
-	def __ini__(self, dict_only = False, *args, **kwargs):
+	def __ini__(self, dict_only = False, rules = {}, *args, **kwargs):
 		self.dict_only = dict_only
+		self.rules = rules
 		return super(SupraListView, self).__init__(*args, **kwargs)
 	#end def
 
@@ -110,11 +111,10 @@ class SupraDetailView(DetailView):
 	def dispatch(self, request, *args, **kwargs):
 		renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if not key.startswith('__'))
 		for renderer in renderers:
-			listv = renderers[renderer](dict_only=True)
-			ref = self.get_reference(listv)
+			ref = self.get_reference(renderers[renderer])
 			if ref:
 				pk = kwargs['pk']
-				listv.rules[ref.name] = pk
+				listv = renderers[renderer](dict_only=True, rules={ref.name:pk})
 				self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
 			#end def
 		return super(SupraDetailView, self).dispatch(request) 
