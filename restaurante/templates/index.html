@@ -9,9 +9,11 @@
 	<script type="text/javascript" src="/static/materialize/js/materialize.min.js"></script>
  	<script type="text/javascript" src="/static/angular/angular.min.js"></script>
  	<script type="text/javascript" src="/static/angular/angular-route.min.js"></script>
+ 	<script type="text/javascript" src="/static/dirPagination.js"></script>
  	<script type="text/javascript" src="/static/controllers.js"></script>
  	<script type="text/javascript" src="/static/app.js"></script>
 	<script type="text/javascript" src="/static/router.js"></script>
+
  	<style>
 		body {
 			display: flex;
@@ -30,11 +32,14 @@
 		     border-bottom: 1px solid #6E9474;
 		     box-shadow: 0 1px 0 0 #bababa;
 		}
-		nav, footer{
+		nav, footer, .pagination li.active{
 			background-color: #6E9474 !important;
 		}
 		table{
 			border-color:#633426 !important;
+		}
+		.btn{
+			background-color: #6E9474 !important;
 		}
 		.ng-invalid.ng-dirty {
 			border-color: #FA787E;
@@ -45,7 +50,6 @@
 		html {
 			font-family: GillSans, Calibri, Trebuchet, sans-serif;
   		}
-      
  	</style>
  	<script>
  	$(document).ready(function() {

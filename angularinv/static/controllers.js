@@ -19,7 +19,7 @@ controllers.controller('TabController', function(){
 	};
 });
 
-controllers.controller('RequisicionController',['$scope',function($scope){
+controllers.controller('RequisicionController',['$http','$scope',function($http, $scope){
 	$('.datepicker').pickadate({
 	    selectMonths: true, // Creates a dropdown to control month
 	    selectYears: 15 ,// Creates a dropdown of 15 years to control year
@@ -35,23 +35,16 @@ controllers.controller('RequisicionController',['$scope',function($scope){
 		weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
 		weekdaysShort: ['Dom', 'LUn', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab'],
 	});
-	$scope.requesiciones = [
-		{
-			"id":1,
-			"nombre":"Requesicion 1",
-			"usuario": "Mario"
-		},
-		{
-			"id":2,
-			"nombre":"Requesicion 2",
-			"usuario": "Jose"
-		},
-		{
-			"id":2,
-			"nombre":"Requesicion 3",
-			"usuario": "Ramos"
-		}
-	];
+	$http.get('/inventario/requisiciondecompra/list/').success(function(data){
+			$scope.requesiciones = data.object_list;
+			$scope.total = data.num_rows;
+	});
+	$scope.sortKey;
+	$scope.reverse;
+   	$scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 	$scope.openModal = function(){
 		$('#modal1').openModal();
 		$('select').material_select();

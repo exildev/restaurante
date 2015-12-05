@@ -8,4 +8,6 @@ urlpatterns = [
 	    url(r'^requisicion.html$', TemplateView.as_view(template_name="angularinv/requisicion.html")),
 	    url(r'^ventas.html$', TemplateView.as_view(template_name="angularinv/ventas.html")),
 	    url(r'^form/requisicion.html$', TemplateView.as_view(template_name="angularinv/formRequisicion.html")),
+	    url(r'^dirPagination.tpl.html$', TemplateView.as_view(template_name="angularinv/dirPagination.tpl.html")),
+
 ]
