@@ -21,7 +21,7 @@
         </thead>
 
         <tbody>
-         <tr dir-paginate="reque in requesiciones |itemsPerPage:5|orderBy:sortKey:reverse|filter:search|filter:searchdate" total-items="total">
+         <tr dir-paginate="reque in requesiciones |itemsPerPage:5|orderBy:sortKey:reverse|filter:search|filter:searchdate" >
          	<td>[[ reque.fecha | date:'yyyy-MM-dd HH:mm:ss' ]]</td>
          	<td>[[ reque.usuario_id ]]</td>
           <th>[[ reque.codigo ]]</th>
