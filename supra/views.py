@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import inlineformset_factory, modelformset_factory
 from django.http import HttpResponse
@@ -222,4 +222,15 @@ class SupraInlineFormView(SupraFormView):
 			return inlineformset_factory(self.base_model, self.inline_model, exclude=[])
 		#end if
 	#end def
+#end class
+
+class SupraDeleteView(DeleteView):
+	template_name = "supra/delete.html"
+
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		self.object.delete()
+		return HttpResponse(status=200)
+	#end def
+
 #end class

@@ -118,3 +118,10 @@ class RequisiscionDeCompraDetail(supra.SupraDetailView):
 		productos = SolicitudDeProductoListView
 	#end class
 #end class
+
+"""
+"""
+
+class RequisicionDeCompraDeleteView(supra.SupraDeleteView):
+	model = models.RequisicionDeCompra
+#end class
