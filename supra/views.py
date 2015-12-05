@@ -1,4 +1,5 @@
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import inlineformset_factory, modelformset_factory
@@ -16,6 +17,14 @@ import json
 class SupraListView(ListView):
 	list_display = None
 	search_fields = []
+	kwargs = {}
+	dict_only = False
+	rules = {}
+
+	def __ini__(self, dict_only = False, *args, **kwargs):
+		self.dict_only = dict_only
+		return super(SupraListView, self).__init__(*args, **kwargs)
+	#end def
 
 	def dispatch(self, request, *args, **kwargs):
 		for field in self.search_fields:
@@ -24,7 +33,7 @@ class SupraListView(ListView):
 				self.kwargs[field] = q
 			#end if
 		#end for
-		return super(SupraListView, self).dispatch(request)
+		return super(SupraListView, self).dispatch(request, *args, **kwargs)
 	#end def
 
 	def get_queryset(self):
@@ -40,6 +49,7 @@ class SupraListView(ListView):
 			#end if
 			queryset = queryset.filter(q)
 		#end for
+		queryset = queryset.filter(**self.rules)
 		return queryset
 	#end def
 
@@ -50,10 +60,8 @@ class SupraListView(ListView):
 		return context
 	#end def
 
-	def render_to_response(self, context, **response_kwargs):
-		json_dict = {}
-
-		queryset = context["object_list"]
+	def get_object_list(self):
+		queryset = self.get_queryset()
 		if self.list_display:
 			renderers = dict((key, F(value)) for key, value in self.Renderer.__dict__.iteritems() if not callable(value) and not key.startswith('__'))
 			queryset = queryset.annotate(**renderers)
@@ -62,6 +70,13 @@ class SupraListView(ListView):
 		else:
 			object_list = list(queryset.values())
 		#end if
+		return object_list
+	#end def
+
+	def render_to_response(self, context, **response_kwargs):
+		json_dict = {}
+
+		object_list = self.get_object_list()
 
 		page_obj = context["page_obj"]
 		paginator = context["paginator"]
@@ -81,9 +96,55 @@ class SupraListView(ListView):
 		#end if
 		json_dict["num_rows"] = num_rows
 		json_dict["object_list"] = object_list
+		if self.dict_only:
+			return json_dict
+		#end if
 		return HttpResponse(json.dumps(json_dict, cls=DjangoJSONEncoder), content_type="application/json")
 	#end def
 
+#end class
+
+class SupraDetailView(DetailView):
+	fields = None
+	extra_fields = {}
+	def dispatch(self, request, *args, **kwargs):
+		renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if not key.startswith('__'))
+		for renderer in renderers:
+			listv = renderers[renderer](dict_only=True)
+			ref = self.get_reference(listv)
+			if ref:
+				pk = kwargs['pk']
+				listv.rules[ref.name] = pk
+				self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
+			#end def
+		return super(SupraDetailView, self).dispatch(request) 
+	#end def
+
+	def get_reference(self, listv):
+		for field in listv.model._meta.fields:
+			if field.is_relation and field.rel.to == self.model:
+				return field
+			#end if
+		#end for
+		return False
+	#end def
+
+	def render_to_response(self, context, **response_kwargs):
+		json_dict = {}
+		if self.fields:
+			for field in self.fields:
+				json_dict[field] = getattr(context["object"], field)
+			#end for
+		else:
+			fields = context["object"]._meta.fields
+			for field in fields:
+				json_dict[field.name] = getattr(context["object"], field.name)
+			#end for
+		#end if
+		for extra in self.extra_fields:
+			json_dict[extra] = self.extra_fields[extra]
+		return HttpResponse(json.dumps(json_dict, cls=DjangoJSONEncoder), content_type="application/json")
+	#enddef
 #end class
 
 class SupraFormView(FormView):
