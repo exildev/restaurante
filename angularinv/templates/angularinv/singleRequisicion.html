@@ -16,7 +16,6 @@
 			 <div class="col s6" ng-repeat="producto in singler.productos.object_list">
 		      <div class="card">
 		        <div class="card-content">
-		        	<span class="card-title">Producto</span>
 		          <ul>
 		          	<li><b>Producto: </b> [[ producto.producto_id ]]</li>
 		          	<li><b>Presentacion: </b>[[ producto.presentacion_id ]]</li>
@@ -29,7 +28,7 @@
 		      </div>
 		    </div>
 		</div>
-		<div class="switch center">
+		<div class="switch center" ng-show="singler.productos.object_list.length > 0">
 		<b>Editar:</b>
 	    <label>
 	      Off

@@ -37,7 +37,7 @@ controllers.controller('RequisicionController',['$http','$scope',function($http,
 	});
 	$http.get('/inventario/requisiciondecompra/list/').success(function(data){
 			$scope.requesiciones = data.object_list;
-			$scope.total = data.num_rows;
+			$scope.totalrequisicion = data.num_rows;
 	});
 	$scope.sortKey;
 	$scope.reverse;
