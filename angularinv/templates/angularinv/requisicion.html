@@ -25,8 +25,8 @@
          	<td>[[ reque.fecha | date:'yyyy-MM-dd HH:mm:ss' ]]</td>
          	<td>[[ reque.usuario_id ]]</td>
           <th>[[ reque.codigo ]]</th>
-         	<td><a href="[[ reque.id ]]"><i class="material-icons">visibility</i></a></td>
-         	<td><a href="[[ reque.id ]]"><i class="material-icons">print</i></a></td>
+         	<td><a href="" ng-click="singleModal([[ reque.id ]])"><i class="material-icons">visibility</i></a></td>
+         	<td><a href=""><i class="material-icons">print</i></a></td>
          </tr>
         </tbody>
       </table>
@@ -37,6 +37,7 @@
           template-url="/angularinv/dirPagination.tpl.html">  
         </dir-pagination-controls>
       <add-form></add-form>
+      <single-requisicion></single-requisicion>
 	<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
     	<a class="btn-floating btn-large waves-effect waves-light red modal-trigger" id="addRequisicion" ng-click="openModal()"><i class="material-icons">add</i></a>
     </div>

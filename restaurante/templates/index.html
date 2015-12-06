@@ -22,18 +22,21 @@
 			background-color: #dad5be;
 			color:#633426;
 		}
-		 .input-field label {
+		 .input-field label ,.switch label{
 		 	color: #633426;
 		 }
-		 .input-field input[type=text]:focus + label {
+		 .input-field input[type=text]:focus + label , .card .card-action a{
 		 	color:#6E9474 ;
 		 }
 		 .input-field input[type=text]:focus {
 		     border-bottom: 1px solid #6E9474;
 		     box-shadow: 0 1px 0 0 #bababa;
 		}
-		nav, footer, .pagination li.active{
+		nav, footer, .pagination li.active, .cardPropia, .switch label input[type=checkbox]:checked+.lever:after{
 			background-color: #6E9474 !important;
+		}
+		.switch label input[type=checkbox]:checked+.lever {
+		    background-color: rgba(110, 148, 116, 0.57);
 		}
 		table{
 			border-color:#633426 !important;

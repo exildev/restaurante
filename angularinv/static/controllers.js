@@ -50,6 +50,7 @@ controllers.controller('RequisicionController',['$http','$scope',function($http,
 		$('select').material_select();
 	};
 	$scope.addForm = addForm;
+	$scope.singleRequisicion = singleRequisicion;
 }]);
 
 var addForm = controllers.directive('addForm', function(){
@@ -87,7 +88,6 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 	    return input;
 	};
 	$scope.enviarForm = function(){
-		console.log(data);
 		var dataSend = {};
 		if(data.codigo){
 			dataSend.codigo = data.codigo;
@@ -153,3 +153,34 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 		}
 	};
 }]);	
+
+var singleRequisicion = controllers.directive('singleRequisicion', function(){
+	return {
+		restrict:'E',
+		templateUrl:'/angularinv/singleRequisicion.html',
+		controller: 'singleController',
+		controllerAs:'single'
+	};
+});
+
+controllers.controller('singleController', ['$http','$scope', function($http, $scope){
+	$scope.singler = [];
+	$scope.editar = false;
+
+	$scope.singleModal = function(id){
+		$http({
+			method:'GET',
+			url:'/inventario/requisiciondecompra/detail/'+id+'/',
+		}).then(function successCallback(response){
+			$scope.singler = response.data;
+			console.log($scope.singler);
+		}, function errorCallback(response){
+			console.log(response);
+		});
+		$('#modal2').openModal();
+	};
+
+	$scope.eliminarP = function(id){
+
+	};
+}]);
