@@ -101,11 +101,12 @@ class SalidaListView(supra.SupraListView):
 
 class RequisicionDeCompraListView(supra.SupraListView):
 	model = models.RequisicionDeCompra
-	list_display = ['username', 'producto', 'fecha', 'presentacion']
+	list_display = ['username', 'producto', 'fecha', 'presentacion', 'unidades']
 	class Renderer:
 		username = 'usuario__username'
 		producto = 'solicituddeproducto__producto__nombre'
 		presentacion = 'solicituddeproducto__presentacion__nombre'
+		unidades = 'solicituddeproducto__presentacion__unidades'
 	#end class
 #end class
 
