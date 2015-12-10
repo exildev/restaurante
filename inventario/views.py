@@ -60,24 +60,25 @@ class AlmacenListView(supra.SupraListView):
 	model = models.Almacen
 #end class
 
+class PresentacionListView(supra.SupraListView):
+	model = models.Presentacion
+	class Renderer:
+		username = 'usuario__username'
+	#end class
+#end class
+
 class ProductoListView(supra.SupraListView):
 	model = models.Producto
 	list_display = ['id', 'almacen', 'almacenado_en', 'username', 'nombre', 'fecha_agregado']
 	class Renderer:
 		almacenado_en = 'almacen__nombre'
 		username = 'usuario__username'
+		presentaciones = PresentacionListView
 	#end class
 #end class
 
 class ProveedorListView(supra.SupraListView):
 	model = models.Proveedor
-	class Renderer:
-		username = 'usuario__username'
-	#end class
-#end class
-
-class PresentacionListView(supra.SupraListView):
-	model = models.Presentacion
 	class Renderer:
 		username = 'usuario__username'
 	#end class
