@@ -25,6 +25,7 @@ class Proveedor(models.Model):
 class Presentacion(models.Model):
 	usuario = CurrentUserField(add_only=True)
 	producto = models.ForeignKey(Producto)
+	nombre = models.CharField(max_length=45)
 	unidades = models.DecimalField(max_digits=6, decimal_places=2, validators=[validators.MinValueValidator(0)])
 	fecha_agregado = models.DateTimeField(auto_now_add=True)
 #end class
