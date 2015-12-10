@@ -77,10 +77,20 @@ class SupraListView(ListView):
 	def get_object_list(self):
 		queryset = self.get_queryset()
 		if self.list_display:
-			renderers = dict((key, F(value)) for key, value in self.Renderer.__dict__.iteritems() if not callable(value) and not key.startswith('__'))
+			renderers = dict(('__'+key, F(value)) for key, value in self.Renderer.__dict__.iteritems() if not callable(value) and not key.startswith('__'))
 			queryset = queryset.annotate(**renderers)
-			queryset = queryset.values(*self.list_display)
-			object_list = list(queryset)
+			object_list = []
+			for q in queryset:
+				object_row = {}
+				for l in self.list_display:
+					if '__' + l in renderers:
+						object_row[l] = getattr(q, '__' + l)
+					else:
+						object_row[l] = getattr(q, l)
+					#end if
+				#end for
+				object_list.append(object_row)
+			#end for
 		else:
 			object_list = list(queryset.values())
 		#end if
@@ -262,3 +272,10 @@ class SupraDeleteView(DeleteView):
 	#end def
 
 #end class
+
+def view(method):
+	def new_method(request):
+		return method(request, {})
+	#end def
+	return new_method
+#end def
