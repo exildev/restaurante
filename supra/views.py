@@ -20,9 +20,11 @@ class SupraListView(ListView):
 	kwargs = {}
 	dict_only = False
 	rules = {}
+	request = None
 
-	def __ini__(self, dict_only = False, rules = {}, *args, **kwargs):
+	def __ini__(self, dict_only = False, rules = {}, search_fields = [], *args, **kwargs):
 		self.dict_only = dict_only
+		self.search_fields = search_fields
 		self.rules = rules
 		return super(SupraListView, self).__init__(*args, **kwargs)
 	#end def
@@ -34,7 +36,17 @@ class SupraListView(ListView):
 				self.kwargs[field] = q
 			#end if
 		#end for
+		self.request = request
 		return super(SupraListView, self).dispatch(request, *args, **kwargs)
+	#end def
+
+	def get_reference(self, listv):
+		for field in listv.model._meta.fields:
+			if field.is_relation and field.rel.to == self.model:
+				return field
+			#end if
+		#end for
+		return False
 	#end def
 
 	def get_queryset(self):
@@ -78,6 +90,17 @@ class SupraListView(ListView):
 		json_dict = {}
 
 		object_list = self.get_object_list()
+		renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if callable(value))
+		queryset = self.get_queryset()
+		listv = list(queryset.values('pk'))
+
+		for r in renderers:
+			ref = self.get_reference(renderers[r])
+			for l, lv in enumerate(listv):
+				listv = renderers[r](dict_only=True, rules = {ref.name:lv['pk']})
+				object_list[l][r] = listv.dispatch(self.request)
+			#end for
+		#end for
 
 		page_obj = context["page_obj"]
 		paginator = context["paginator"]
@@ -117,6 +140,7 @@ class SupraDetailView(DetailView):
 				listv = renderers[renderer](dict_only=True, rules={ref.name:pk})
 				self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
 			#end def
+		#end for
 		return super(SupraDetailView, self).dispatch(request) 
 	#end def
 
