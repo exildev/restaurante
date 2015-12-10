@@ -104,7 +104,6 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 	};
 	$scope.enviarForm = function(){
 		var dataSend = {};
-		console.log(data);
 		if(data.codigo){
 			dataSend.codigo = data.codigo;
 		}if(data.producto){
@@ -129,8 +128,6 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 		dataSend["solicituddeproducto_set-INITIAL_FORMS"] = 0;
 		dataSend["solicituddeproducto_set-MIN_NUM_FORMS"] = 0;
 		dataSend["solicituddeproducto_set-MAX_NUM_FORMS"] = 1000;
-		console.log(dataSend);
-
 		$http({
 			method:'POST',
 			url:'/inventario/requisiciondecompra/form/',
@@ -199,23 +196,34 @@ var singleRequisicion = controllers.directive('singleRequisicion', function(){
 });
 
 controllers.controller('singleController', ['$http','$scope', function($http, $scope){
-	$scope.singler = [];
-	$scope.editar = false;
-
 	$scope.singleModal = function(id){
+		$scope.singler = [];
 		$http({
 			method:'GET',
 			url:'/inventario/requisiciondecompra/detail/'+id+'/',
 		}).then(function successCallback(response){
 			$scope.singler = response.data;
-			console.log($scope.singler);
 		}, function errorCallback(response){
 			console.log(response);
 		});
+		$scope.editar = false;
 		$('#modal2').openModal();
+
 	};
-
-	$scope.eliminarP = function(id){
-
+	$scope.eliminarP = function(producto){
+		var datos = {};
+		datos["csrfmiddlewaretoken"] = $("input[name='csrfmiddlewaretoken']").val();
+		$http({
+			method:'POST',
+			data:$.param(datos),
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			url:'/inventario/requisiciondecompra/delete/'+producto.pk+'/'
+		}).then(function  successCallback(response){
+			var index = $scope.singler.productos.object_list.indexOf(producto);
+			$scope.singler.productos.object_list.splice(index, 1);	
+			Materialize.toast('Eliminado correctamente', 4000);
+		}, function errorCallback(response){
+			console.log(response);
+		});
 	};
 }]);

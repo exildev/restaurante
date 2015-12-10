@@ -17,13 +17,13 @@
 		      <div class="card">
 		        <div class="card-content">
 		          <ul>
-		          	<li><b>Producto: </b> [[ producto.producto_id ]]</li>
-		          	<li><b>Presentacion: </b>[[ producto.presentacion_id ]]</li>
+		          	<li><b>Producto: </b> [[ producto.nombre ]]</li>
+		          	<li><b>Presentacion: </b>[[ producto.presentacion ]] [[ producto.unidadades ]]</li>
 		          	<li><b>Cantidad:</b> [[ producto.cantidad ]]</li>
 		          </ul>
 		        </div>
 		        <div class="card-action" ng-show="editar">
-		          <a ng-click="eliminarP(producto.id)">Eliminar</a>
+		          <a ng-click="eliminarP(producto)">Eliminar</a>
 		        </div>
 		      </div>
 		    </div>
