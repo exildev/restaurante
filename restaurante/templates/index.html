@@ -5,6 +5,7 @@
 	<title>Restaurante</title>
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="/static/materialize/css/materialize.min.css">
+	<link rel="stylesheet" href="/static/style.css">
 	<script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="/static/materialize/js/materialize.min.js"></script>
  	<script type="text/javascript" src="/static/angular/angular.min.js"></script>
@@ -13,47 +14,6 @@
  	<script type="text/javascript" src="/static/controllers.js"></script>
  	<script type="text/javascript" src="/static/app.js"></script>
 	<script type="text/javascript" src="/static/router.js"></script>
-
- 	<style>
-		body {
-			display: flex;
-			min-height: 100vh;
-			flex-direction: column;
-			background-color: #dad5be;
-			color:#633426;
-		}
-		 .input-field label ,.switch label{
-		 	color: #633426;
-		 }
-		 .input-field input[type=text]:focus + label , .card .card-action a, a{
-		 	color:#6E9474 ;
-		 }
-		 .input-field input[type=text]:focus {
-		     border-bottom: 1px solid #6E9474;
-		     box-shadow: 0 1px 0 0 #bababa;
-		}
-		nav, footer, .pagination li.active, .cardPropia, .switch label input[type=checkbox]:checked+.lever:after{
-			background-color: #6E9474 !important;
-		}
-		.switch label input[type=checkbox]:checked+.lever {
-		    background-color: rgba(110, 148, 116, 0.57);
-		}
-		table{
-			border-color:#633426 !important;
-		}
-		.btn{
-			background-color: #6E9474 !important;
-		}
-		.ng-invalid.ng-dirty {
-			border-color: #FA787E;
-		}
-		.ng-valid.ng-dirty {
-			border-color: #78FA89;
-		}
-		html {
-			font-family: GillSans, Calibri, Trebuchet, sans-serif;
-  		}
- 	</style>
  	<script>
  	$(document).ready(function() {
  		$(".dropdown-button").dropdown();

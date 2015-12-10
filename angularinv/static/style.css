@@ -1,0 +1,58 @@
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	background-color: #dad5be;
+	color:#633426;
+}
+ .input-field label ,.switch label{
+	color: #633426;
+ }
+ .input-field input[type=text]:focus + label , .card .card-action a, a, .dropdown-content li>a, .dropdown-content li>span {
+	color:#6E9474;
+ }
+ .input-field input[type=text]:focus {
+	 border-bottom: 1px solid #6E94746e9474;
+	 box-shadow: 0 1px 0 0 #bababa;
+}
+nav, footer, .pagination li.active, .cardPropia, .switch label input[type=checkbox]:checked+.lever:after{
+	background-color: #6E9474 !important;
+}
+.switch label input[type=checkbox]:checked+.lever {
+	background-color: rgba(110, 148, 116, 0.57);
+}
+table{
+	border-color:#633426 !important;
+}
+.btn{
+	background-color: #6E9474 !important;
+}
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+	border-color: #6e9474;
+}
+html {
+	font-family: GillSans, Calibri, Trebuchet, sans-serif;
+	}
+	input[type="checkbox"]:checked+label:before{
+	border-right: 2px solid #6e9474;
+	border-bottom: 2px solid #6e9474;
+	}
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+	border-bottom: 1px solid #6e9474;
+	box-shadow: 0 1px 0 0 #bababa;
+}
+input[type=text]:focus:not([readonly])+label, input[type=password]:focus:not([readonly])+label, input[type=email]:focus:not([readonly])+label, input[type=url]:focus:not([readonly])+label, input[type=time]:focus:not([readonly])+label, input[type=date]:focus:not([readonly])+label, input[type=datetime-local]:focus:not([readonly])+label, input[type=tel]:focus:not([readonly])+label, input[type=number]:focus:not([readonly])+label, input[type=search]:focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label {
+	color: #6e9474;
+}
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+	border-bottom: 1px solid #633426;
+}
+.select-wrapper input.select-dropdown{
+	border-bottom: 1px solid #633426;
+}
+.pagination li a {
+    color: #633426;
+}

@@ -35,10 +35,13 @@ controllers.controller('RequisicionController',['$http','$scope',function($http,
 		weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
 		weekdaysShort: ['Dom', 'LUn', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab'],
 	});
-	$http.get('/inventario/requisiciondecompra/list/').success(function(data){
+	function requesiciones(){
+		$http.get('/inventario/requisiciondecompra/list/').success(function(data){
 			$scope.requesiciones = data.object_list;
 			$scope.totalrequisicion = data.num_rows;
-	});
+		});
+	};
+	requesiciones();
 	$scope.sortKey;
 	$scope.reverse;
    	$scope.sort = function(keyname){
@@ -78,7 +81,10 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 	$http.get('/inventario/producto/list/').success(function(data){
 			$scope.productos = data.object_list
 	});
+	$scope.activar = [];
+
 	var data = $scope.data = [];
+	$scope.presentacionP = [];
 	$scope.total = 2;
 	$scope.range = function(min, max, step){
 	    var step = step || 1;
@@ -86,6 +92,16 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 	    for (var i = min; i <= max; i += step) input.push(i);
 	    $('select').material_select();
 	    return input;
+	};
+	$scope.presentaciones = function(lista, estado){
+		console.log(lista);
+		console.log(estado);
+		if(lista.object_list.length > 0){
+			$scope.presentacionP = lista.object_list;
+			estado = false;
+		}else{
+			estado = true;
+		};
 	};
 	$scope.enviarForm = function(){
 		var dataSend = {};
@@ -121,7 +137,7 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 			data:$.param(dataSend),
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function successCallback(response){
-			console.log(response);
+			requesiciones();
 			$('#modal1').closeModal();
 			Materialize.toast('Guardado Exitoso', 4000);
 			$scope.total = 2;
