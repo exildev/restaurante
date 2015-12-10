@@ -110,7 +110,7 @@ class RequisicionDeCompraListView(supra.SupraListView):
 class SolicitudDeProductoListView(supra.SupraListView):
 	model = models.SolicitudDeProducto
 	search_fields = ['producto_id']
-	list_display = ['nombre', 'presentacion', 'unidadades', 'cantidad']
+	list_display = ['pk', 'nombre', 'presentacion', 'unidadades', 'cantidad']
 	class Renderer:
 		nombre = 'producto__nombre'
 		presentacion = 'presentacion__nombre'
