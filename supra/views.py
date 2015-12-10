@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import inlineformset_factory, modelformset_factory
+from django.conf.urls import include, url
 from django.http import HttpResponse
 from django.db.models import Q, F
 import models
@@ -84,9 +85,9 @@ class SupraListView(ListView):
 				object_row = {}
 				for l in self.list_display:
 					if '__' + l in renderers:
-						object_row[l] = getattr(q, '__' + l)
+						object_row[l] = str(getattr(q, '__' + l))
 					else:
-						object_row[l] = getattr(q, l)
+						object_row[l] = str(getattr(q, l))
 					#end if
 				#end for
 				object_list.append(object_row)
