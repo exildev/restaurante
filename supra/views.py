@@ -8,6 +8,7 @@ from django.db.models import Q, F
 import models
 import json
 
+
 """
 	@name: SuperListView
 	@author: exile.sas
@@ -132,15 +133,17 @@ class SupraDetailView(DetailView):
 	fields = None
 	extra_fields = {}
 	def dispatch(self, request, *args, **kwargs):
-		renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if not key.startswith('__'))
-		for renderer in renderers:
-			ref = self.get_reference(renderers[renderer])
-			if ref:
-				pk = kwargs['pk']
-				listv = renderers[renderer](dict_only=True, rules={ref.name:pk})
-				self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
-			#end def
-		#end for
+		if hasattr(self, 'Renderer'):
+			renderers = dict((key, value) for key, value in self.Renderer.__dict__.iteritems() if not key.startswith('__'))
+			for renderer in renderers:
+				ref = self.get_reference(renderers[renderer])
+				if ref:
+					pk = kwargs['pk']
+					listv = renderers[renderer](dict_only=True, rules={ref.name:pk})
+					self.extra_fields[renderer] = listv.dispatch(request, *args, **kwargs)
+				#end def
+			#end for
+		#end if
 		return super(SupraDetailView, self).dispatch(request) 
 	#end def
 
@@ -162,11 +165,12 @@ class SupraDetailView(DetailView):
 		else:
 			fields = context["object"]._meta.fields
 			for field in fields:
-				json_dict[field.name] = getattr(context["object"], field.name)
+				json_dict[field.name] = str(getattr(context["object"], field.name))
 			#end for
 		#end if
 		for extra in self.extra_fields:
 			json_dict[extra] = self.extra_fields[extra]
+		#end for
 		return HttpResponse(json.dumps(json_dict, cls=DjangoJSONEncoder), content_type="application/json")
 	#enddef
 #end class
