@@ -2,6 +2,7 @@ from django.shortcuts import render
 from supra import views as supra
 import models
 import forms
+import pdf
 
 
 """
@@ -101,20 +102,19 @@ class SalidaListView(supra.SupraListView):
 
 class RequisicionDeCompraListView(supra.SupraListView):
 	model = models.RequisicionDeCompra
-	list_display = ['username', 'producto', 'fecha', 'presentacion', 'unidades']
 	class Renderer:
 		username = 'usuario__username'
-		producto = 'solicituddeproducto__producto__nombre'
-		presentacion = 'solicituddeproducto__presentacion__nombre'
-		unidades = 'solicituddeproducto__presentacion__unidades'
 	#end class
 #end class
 
 class SolicitudDeProductoListView(supra.SupraListView):
 	model = models.SolicitudDeProducto
 	search_fields = ['producto_id']
+	list_display = ['nombre', 'presentacion', 'unidadades', 'cantidad']
 	class Renderer:
-		username = 'usuario__username'
+		nombre = 'producto__nombre'
+		presentacion = 'presentacion__nombre'
+		unidadades = 'presentacion__unidades'
 	#end class
 #end class
 
@@ -123,6 +123,15 @@ class RequisiscionDeCompraDetail(supra.SupraDetailView):
 	class Renderer:
 		productos = SolicitudDeProductoListView
 	#end class
+
+	urls = [
+		(r'pdf/$', pdf)
+	]
+
+	@supra.view
+	def pdf(request, context):
+		return pdf.render(self.template_name, context)
+	#end def
 #end class
 
 """
