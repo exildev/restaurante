@@ -35,13 +35,13 @@ controllers.controller('RequisicionController',['$http','$scope',function($http,
 		weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
 		weekdaysShort: ['Dom', 'LUn', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab'],
 	});
-	function requesiciones(){
+	$scope.$on('requesiciones', function(){
 		$http.get('/inventario/requisiciondecompra/list/').success(function(data){
 			$scope.requesiciones = data.object_list;
 			$scope.totalrequisicion = data.num_rows;
 		});
-	};
-	requesiciones();
+	});
+	$scope.$emit('requesiciones');
 	$scope.sortKey;
 	$scope.reverse;
    	$scope.sort = function(keyname){
@@ -93,23 +93,23 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 	    $('select').material_select();
 	    return input;
 	};
-	$scope.presentaciones = function(lista, estado){
-		console.log(lista);
-		console.log(estado);
+	$scope.presentaciones = function(lista, n){
 		if(lista.object_list.length > 0){
 			$scope.presentacionP = lista.object_list;
-			estado = false;
+			$scope.activar[n] = false;
 		}else{
-			estado = true;
+			$scope.presentacionP = [];
+			$scope.activar[n] = true;
 		};
 	};
 	$scope.enviarForm = function(){
 		var dataSend = {};
+		console.log(data);
 		if(data.codigo){
 			dataSend.codigo = data.codigo;
 		}if(data.producto){
 			for (p in data.producto ) {
-				dataSend["solicituddeproducto_set-"+p+"-producto"] = data.producto[p];
+				dataSend["solicituddeproducto_set-"+p+"-producto"] = data.producto[p].id;
 			};
 		}if(data.presentacion){
 			for (k in data.presentacion) {
@@ -137,13 +137,32 @@ controllers.controller('formControllers', ['$http','$scope', function($http, $sc
 			data:$.param(dataSend),
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function successCallback(response){
-			requesiciones();
+			$scope.$emit('requesiciones');
 			$('#modal1').closeModal();
 			Materialize.toast('Guardado Exitoso', 4000);
 			$scope.total = 2;
 			$scope.data = [];
 		}, function errorCallback(response){
-			console.log(response);
+			var datos = response.data;
+			if(datos.inlines.length>0){
+				for (var i = 0; i < datos.inlines.length; i++) {
+					if(datos.inlines[i].producto){
+						for(pro in datos.inlines[i].producto){
+							Materialize.toast('Producto: ' +datos.inlines[i].producto[pro], 4000);
+						}
+					}
+					if(datos.inlines[i].cantidad){
+						for(pro in datos.inlines[i].cantidad){
+							Materialize.toast('Cantidad: ' +datos.inlines[i].cantidad[pro], 4000);
+						}
+					}
+					if(datos.inlines[i].presentacion){
+						for(pro in datos.inlines[i].presentacion){
+							Materialize.toast('Presentacion: ' +datos.inlines[i].presentacion[pro], 4000);
+						}
+					}
+				};
+			}
 		});
 		
 	};

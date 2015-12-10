@@ -14,15 +14,15 @@
 					<div ng-repeat="n in range(0, total)" >
 						<div ng-hide="data.check[n]" ng-init="data.check[n]=false" ng-model="data.check[n]" class="row">
 							<div  class="input-field col s3">
-								<select  id="id_solicituddeproducto_set-[[n]]-producto" name="solicituddeproducto_set-[[n]]-producto" ng-model="data.producto[n]" ng-change="presentaciones(data.producto[n].presentaciones, activar[n])" ng-options="pro as pro.nombre for pro in productos track by pro.id"> 
+								<select  id="id_solicituddeproducto_set-[[n]]-producto" name="solicituddeproducto_set-[[n]]-producto" ng-model="data.producto[n]" ng-change="presentaciones(data.producto[n].presentaciones, n)" ng-options="pro as pro.nombre for pro in productos track by pro.id"> 
 									<option value="" disabled selected="selected">---------</option>
 								</select>
 								<label for="id_solicituddeproducto_set-[[n]]-producto">Producto:</label> 
 							</div>
 							<div class="input-field col s3" >
-								<select id="id_solicituddeproducto_set-[[n]]-presentacion" name="solicituddeproducto_set-[[n]]-presentacion" ng-disabled="activar[n]=true" ng-model="data.presentacion[n]">
+								<select id="id_solicituddeproducto_set-[[n]]-presentacion" name="solicituddeproducto_set-[[n]]-presentacion" ng-disabled="activar[n]" ng-init="activar[n]=true" ng-model="data.presentacion[n]">
 									<option value="" disabled selected="selected">---------</option>
-									<option ng-repeat="pre in presentacionP" value="[[ pre.id ]]">Unidades: [[ pre.unidades ]]</option>
+									<option ng-repeat="pre in presentacionP" value="[[ pre.id ]]">[[ pre.nombre ]] [[ pre.unidades ]]</option>
 								</select>
 								<label for="id_solicituddeproducto_set-[[n]]-presentacion" >Presentacion:</label> 
 							</div>
