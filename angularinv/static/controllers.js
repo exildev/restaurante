@@ -34,6 +34,7 @@ controllers.controller('RequisicionController',['$http','$scope',function($http,
 		monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
 		weekdaysShort: ['Dom', 'LUn', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab'],
+		format:'yyyy/mm/dd'
 	});
 	$scope.$on('requesiciones', function(){
 		$http.get('/inventario/requisiciondecompra/list/').success(function(data){

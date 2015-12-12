@@ -6,9 +6,9 @@
 			 		<div class="card-content white-text">
 			 		<span class="card-title">Requisición de Producto</span>
 			 		<ul>
-			 			<li><b>Fecha: </b>[[ singler.fecha |  date:'yyyy-MM-dd HH:mm:ss'  ]]</li>
+			 			<li><b>Fecha: </b>[[ singler.fecha |  date:'yyyy-MM-dd'  ]]</li>
 			 			<li><b>Codigo: </b>[[ singler.codigo ]]</li>
-			 			<li><b>Usuario: </b>[[ singler.usuario ]]</li>
+			 			<li><b>Usuario: </b><span ng-if="singler.usuario=='None'">Sin asignar</span><span ng-if="singler.usuario!='None'">[[ singler.usuario ]]</span></li>
 			 		</ul>
 					</div>
 			 	</div>

@@ -22,11 +22,11 @@
 
         <tbody>
          <tr dir-paginate="reque in requesiciones |itemsPerPage:5|orderBy:sortKey:reverse|filter:search|filter:searchdate" >
-         	<td>[[ reque.fecha | date:'yyyy-MM-dd HH:mm:ss' ]]</td>
+         	<td>[[ reque.fecha | date:'yyyy/MM/dd HH:mm:ss' ]]</td>
          	<td>[[ reque.usuario_id ]]</td>
           <th>[[ reque.codigo ]]</th>
          	<td><a href="" ng-click="singleModal([[ reque.id ]])"><i class="material-icons">visibility</i></a></td>
-         	<td><a href="" target="blank_"><i class="material-icons">print</i></a></td>
+         	<td><a href="/inventario/requisiciondecompra/detail/[[ reque.id ]]/pdf/"  target="_blank"><i class="material-icons">print</i></a></td>
          </tr>
         </tbody>
       </table>
