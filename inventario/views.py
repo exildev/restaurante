@@ -102,9 +102,12 @@ class SalidaListView(supra.SupraListView):
 
 class RequisicionDeCompraListView(supra.SupraListView):
 	model = models.RequisicionDeCompra
-	list_display = ['codigo', 'usuario', 'fecha', 'username']
+	list_display = ['codigo', 'usuario', 'fecha']
 	class Renderer:
-		username = 'usuario__username'
+		def fecha(self, obj):
+			return obj.fecha.strftime("%d-%m-%Y %I:%M%p")
+		#end def
+		usuario = 'usuario__username'
 	#end class
 #end class
 

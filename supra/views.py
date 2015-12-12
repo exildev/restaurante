@@ -108,11 +108,18 @@ class SupraListView(ListView):
 		listv = list(queryset.values('pk'))
 
 		for r in renderers:
-			ref = self.get_reference(renderers[r])
-			for l, lv in enumerate(listv):
-				listv = renderers[r](dict_only=True, rules = {ref.name:lv['pk']})
-				object_list[l][r] = listv.dispatch(self.request)
-			#end for
+			if hasattr(renderers[r], 'model'):
+				ref = self.get_reference(renderers[r])
+				for l, lv in enumerate(queryset):
+					listv = renderers[r](dict_only=True, rules = {ref.name:lv['pk']})
+					object_list[l][r] = listv.dispatch(self.request)
+				#end for
+			else:
+				for l in range(queryset.count()):
+					print "<<<" , l
+					object_list[l][r] = renderers[r](self,queryset[l])
+				#end for
+			#end if
 		#end for
 
 		page_obj = context["page_obj"]
