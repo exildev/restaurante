@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import inlineformset_factory, modelformset_factory
+from django.utils.decorators import classonlymethod 
 from django.conf.urls import include, url
 from django.http import HttpResponse
 from django.db.models import Q, F
@@ -141,6 +142,7 @@ class SupraListView(ListView):
 #end class
 
 class SupraDetailView(DetailView):
+	template_name = "supra/detail.html"
 	fields = None
 	extra_fields = {}
 	def dispatch(self, request, *args, **kwargs):
@@ -167,21 +169,35 @@ class SupraDetailView(DetailView):
 		return False
 	#end def
 
-	def render_to_response(self, context, **response_kwargs):
+	@classonlymethod
+	def as_supra_view(cls, **initkwargs):
+		as_view = cls.as_view()
+		urlpatterns = [
+			url(r'^$', as_view,),
+		] + cls(**initkwargs).get_urls()
+		return include(urlpatterns)
+	#end def
+	
+	def get_json_dic(self, obj):
 		json_dict = {}
 		if self.fields:
 			for field in self.fields:
-				json_dict[field] = getattr(context["object"], field)
+				json_dict[field] = getattr(obj, field)
 			#end for
 		else:
-			fields = context["object"]._meta.fields
+			fields = obj._meta.fields
 			for field in fields:
-				json_dict[field.name] = str(getattr(context["object"], field.name))
+				json_dict[field.name] = str(getattr(obj, field.name))
 			#end for
 		#end if
 		for extra in self.extra_fields:
 			json_dict[extra] = self.extra_fields[extra]
 		#end for
+		return json_dict
+	#end def
+
+	def render_to_response(self, context, **response_kwargs):
+		json_dict = self.get_json_dic(context['object'])
 		return HttpResponse(json.dumps(json_dict, cls=DjangoJSONEncoder), content_type="application/json")
 	#enddef
 #end class
@@ -275,8 +291,14 @@ class SupraDeleteView(DeleteView):
 #end class
 
 def view(method):
-	def new_method(request):
-		return method(request, {})
+	def self_method(self):
+		def new_method(request, *args, **kwargs):
+			obj = self.get_queryset().filter(pk=kwargs['pk']).first()
+
+			self.get_json_dic(obj)
+			return method(self, request, {'object':self.get_json_dic(obj)})
+		#end def
+		return new_method
 	#end def
-	return new_method
+	return self_method
 #end def

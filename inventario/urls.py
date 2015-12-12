@@ -22,7 +22,7 @@ urlpatterns = [
 	url(r'solicituddeproducto/list/$', views.SolicitudDeProductoListView.as_view(), name="solicituddeproducto_list"),
 
 	#detail
-	url(r'requisiciondecompra/detail/(?P<pk>[-\w]+)/$', views.RequisiscionDeCompraDetail.as_view(), name="requisiciondecompradetail_list"),
+	url(r'requisiciondecompra/detail/(?P<pk>[-\w]+)/', views.RequisiscionDeCompraDetail.as_supra_view(), name="requisiciondecompradetail_list"),
 
 	#delete
 	url(r'requisiciondecompra/delete/(?P<pk>[-\w]+)/$', views.RequisicionDeCompraDeleteView.as_view(), name="requisiciondecompra_delete"),

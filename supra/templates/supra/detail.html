@@ -1,0 +1,13 @@
+<ul>
+{% for k,obj in object.items %}
+	{% if obj.items %}
+		<ol>
+		{% for j,i in obj.items %}
+			<li>{{j}}:{{i}}</li>
+		{% endfor %}
+		</ol>
+	{% else %}
+		<li>{{k}}:{{obj}}</li>
+	{% endif %}
+{% endfor %}
+</ul>
