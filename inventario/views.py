@@ -2,7 +2,7 @@ from django.shortcuts import render
 from supra import views as supra
 import models
 import forms
-import pdf
+from pdf import views as pdf
 
 
 """
@@ -118,18 +118,21 @@ class SolicitudDeProductoListView(supra.SupraListView):
 	#end class
 #end class
 
+from django.conf.urls import include, url
 class RequisiscionDeCompraDetail(supra.SupraDetailView):
 	model = models.RequisicionDeCompra
 	class Renderer:
 		productos = SolicitudDeProductoListView
 	#end class
 
-	urls = [
-		(r'pdf/$', pdf)
-	]
+	def get_urls(self):
+		return [
+			url(r'^pdf/$', self.pdf(),),
+		]
+	#end def
 
 	@supra.view
-	def pdf(request, context):
+	def pdf(self, request, context):
 		return pdf.render(self.template_name, context)
 	#end def
 #end class
