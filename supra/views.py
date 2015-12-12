@@ -172,9 +172,13 @@ class SupraDetailView(DetailView):
 	@classonlymethod
 	def as_supra_view(cls, **initkwargs):
 		as_view = cls.as_view()
+		urls = cls(**initkwargs).get_urls()
+		for u in urls:
+			u._callback = u._callback()
+		#end for
 		urlpatterns = [
 			url(r'^$', as_view,),
-		] + cls(**initkwargs).get_urls()
+		] + urls
 		return include(urlpatterns)
 	#end def
 	

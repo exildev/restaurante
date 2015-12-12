@@ -102,6 +102,7 @@ class SalidaListView(supra.SupraListView):
 
 class RequisicionDeCompraListView(supra.SupraListView):
 	model = models.RequisicionDeCompra
+	list_display = ['codigo', 'usuario', 'fecha', 'username']
 	class Renderer:
 		username = 'usuario__username'
 	#end class
@@ -127,7 +128,7 @@ class RequisiscionDeCompraDetail(supra.SupraDetailView):
 
 	def get_urls(self):
 		return [
-			url(r'^pdf/$', self.pdf(),),
+			url(r'^pdf/$', self.pdf,),
 		]
 	#end def
 
@@ -140,6 +141,6 @@ class RequisiscionDeCompraDetail(supra.SupraDetailView):
 """
 """
 
-class RequisicionDeCompraDeleteView(supra.SupraDeleteView):
-	model = models.RequisicionDeCompra
+class SolicitudDeProductoDeleteView(supra.SupraDeleteView):
+	model = models.SolicitudDeProducto
 #end class

@@ -25,6 +25,6 @@ urlpatterns = [
 	url(r'requisiciondecompra/detail/(?P<pk>[-\w]+)/', views.RequisiscionDeCompraDetail.as_supra_view(), name="requisiciondecompradetail_list"),
 
 	#delete
-	url(r'requisiciondecompra/delete/(?P<pk>[-\w]+)/$', views.RequisicionDeCompraDeleteView.as_view(), name="requisiciondecompra_delete"),
+	url(r'solicituddeproducto/delete/(?P<pk>[-\w]+)/$', views.SolicitudDeProductoDeleteView.as_view(), name="solicituddeproducto_delete"),
 
 ]
